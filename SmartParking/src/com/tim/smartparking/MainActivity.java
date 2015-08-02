@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,8 +14,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -25,95 +26,45 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.easibeacon.protocol.IBeacon;
-import com.easibeacon.protocol.IBeaconListener;
 import com.easibeacon.protocol.IBeaconProtocol;
 import com.easibeacon.protocol.Utils;
 
 public class MainActivity extends Activity {
 	
 	
-	private static final int minorKzn = 4301;
 	Button btnFind;
 	static Spinner Spinner;				//Спиннер
 	static AlertDialog.Builder ad;		//Нужно
 	static int act = 0;					// Какой активити открыть1`
-	static AlertDialog ald, ald1, ald2, ald3;	//ald3 - internet; ald2 - wait; ald - findYou; ald1 - no GPS
-	static boolean readyAld2 = false;	//Это две
-	static boolean isFound = false;		//нужных переменных
-	static boolean doSearch = false;	//Чекает, если юзер хочет, чтоб его нашли
-	static CountDownTimer cdt;			//Проверяет и открывает другое активити при необходимости
+	static AlertDialog ald1, ald2, ald3;	//ald3 - internet; ald2 - wait; ald1 - no GPS
 	static Geocoder g;					//Превращает координаты в название города
 	static String myTown; // В эту строку будет записан город, например,
 							// "Уруссу"
 	public static IBeaconProtocol ibp;
 	public static LocationManager lm;
+	public static Location currLoc;
+	static findTown ft;
 	  
 	public static LocationListener locationlistener = new LocationListener() {
 
 		@Override
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
-			try { // Здесь определяется город и записывается в строку
-				myTown = findMyTown(g.getFromLocation(location.getLatitude(),
-						location.getLongitude(), 1).toString());
-				if (readyAld2 && isFound) {
-					if (myTown.equals("Казань")) {
-						act = 1;
-					} else if (myTown.equals("Набережные Челны")) {
-						act = 2;
-					} else {
-					}
-					ald2.cancel();
-				}
-			} catch (IOException e) { /*
-				// Тут рассматривается случай, когда нет инета и не удается
-				// определить город по координатам
-				ad.setTitle("Нет доступа в Интернет");
-				ad.setMessage("Не удается подключиться к Интернету. Перейти в настройки?");
-				ad.setPositiveButton("Перейти",
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// TODO Auto-generated method stub
-								MainActivity ma = new MainActivity();
-								ma.startActivityForResult(
-										new Intent(
-												android.provider.Settings.ACTION_WIRELESS_SETTINGS),
-										1);
-							}
-						});
-				ad.setNegativeButton("Я сам выберу город",
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// TODO Auto-generated method stub
-								doSearch = false;
-								dialog.cancel();
-							}
-						});
-				ald3 = ad.create();
-				ald3.show(); */
-			} 
+			currLoc = location;
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
+			ald1.show();
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub
-			if (ald1 != null && doSearch == true)
+			if (ald1.isShowing())
 				ald1.cancel(); // Закрываем это меню, если пользователь включил
 								// GPS через шторку
-			readyAld2 = true;
-			ald2.show();
 		}
 
 		@Override
@@ -140,7 +91,7 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+		/*
 		// Тут инизиализируем поиск iBeacon
 		ibp = IBeaconProtocol.getInstance(this);
 		ibp.setListener(new IBeaconListener() {
@@ -175,7 +126,7 @@ public class MainActivity extends Activity {
 				
 			}
 			
-		});		
+		});		*/
 		// Тут инициализируем геокодер и GPS-менеджер
 		g = new Geocoder(this);
 		lm = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -190,7 +141,19 @@ public class MainActivity extends Activity {
 		ad.setPositiveButton("", null);
 		ad.setNegativeButton("", null);
 		ald2 = ad.create();
-		isFound = true;
+		if(ald2 != null) {
+		ald2.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				try{
+					ft.cancel(true);
+				} catch(NullPointerException e) {}
+			}
+			
+		});
+		}
 		
 		ad.setMessage(R.string.dlg_find_me);
 		ad.setPositiveButton(R.string.dlg_find_me_ok,
@@ -218,39 +181,35 @@ public class MainActivity extends Activity {
 					}
 				});
 		ald1 = ad.create();
-
-		ad.setTitle("");
-		ad.setMessage(R.string.dlg_find_me_city);
-		ad.setCancelable(false);
-		ad.setPositiveButton(R.string.dlg_find_me_yes, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				doSearch = true;
-				dialog.cancel();
-				if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) { // Если
-																				// выключен
-																				// GPS
-					ald1.show();
-				} else if(doSearch) { // Если включен GPS
-					startGPS();
-					ald2.show();
-				}
-			}
-
-		});
-		ad.setNegativeButton(R.string.dlg_find_me_no,
+		
+		ad.setTitle("Нет доступа в Интернет");
+		ad.setMessage("Не удается подключиться к Интернету. Перейти в настройки?");
+		ad.setPositiveButton("Перейти",
 				new DialogInterface.OnClickListener() {
 
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(DialogInterface dialog,
+							int which) {
 						// TODO Auto-generated method stub
 						dialog.cancel();
-						doSearch = false;
+						MainActivity ma = new MainActivity();
+						ma.startActivityForResult(
+								new Intent(
+										android.provider.Settings.ACTION_WIRELESS_SETTINGS),
+								1);
 					}
 				});
-		ald = ad.create();
+		ad.setNegativeButton("Я сам выберу город",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}
+				});
+		ald3 = ad.create();
 		
 		btnFind = (Button) findViewById(R.id.btnFind);
 		btnFind.setOnClickListener(new OnClickListener() {
@@ -258,35 +217,22 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				cdt.start();
-				isFound = true;
-				ald.show();
-			}
-			
-		});
-		cdt = new CountDownTimer(Long.MAX_VALUE, 100) {
-
-			@Override
-			public void onFinish() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
-				if(act != 0 && readyAld2) {
-					if(act == 1) {
-						doSearch = false;
-						if(ald2 != null) {
-							ald2.cancel();
-						}
-						startActivity(new Intent(MainActivity.this, KazanParks.class));
+				if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) { // Если
+																				// выключен
+																				// GPS
+					ald1.show();
+				} else {
+					if(!isOnline()) {
+						ald3.show();
+					} else { // Если включен GPS
+						ft = new findTown();
+						ald2.show();
+						ft.execute(null, null, null);
 					}
 				}
 			}
 			
-		}.start();
+		});
 
 		Spinner = (Spinner) findViewById(R.id.spinner);
 		Spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -294,7 +240,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				System.err.println("**************" + arg2);
 
 				switch (arg2) {
 				case 0:
@@ -321,6 +266,7 @@ public class MainActivity extends Activity {
 
 	}
     
+	// Not used
 	private void scanBeacons(){
 		// Check Bluetooth every time
 		Log.i(Utils.LOG_TAG,"Scanning");
@@ -369,18 +315,24 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		startGPS();
-		if(ald2 != null) ald2.cancel();
 		Spinner.setSelection(0);
-		if(doSearch) cdt.start();
-		scanBeacons();
+		//scanBeacons();
 	}
 
 	protected void onPause() {
 		super.onPause();
 		stopGPS();
 		stopAll();
+		/*
 		if(ibp.isScanning()) {
 			ibp.stopScan();
+		} */
+	}
+	
+	public void startAct() {
+		if(act == 1) {
+			MainActivity ma = new MainActivity();
+			ma.startActivity(new Intent(this, Kolco.class));
 		}
 	}
 
@@ -394,54 +346,62 @@ public class MainActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 			if(requestCode == 9){
 				if(resultCode == Activity.RESULT_OK){
-					scanBeacons();
+					//scanBeacons();
 				}
 			}
-		doSearch = true;
-		cdt.start();
-		if(ald2 != null) {
-			ald2.cancel();
-		}
-		if (requestCode == 0) {
-			if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-				ald1.show();
-			} else {
-				readyAld2 = true;
-				ald2.show();
-			}
-		} else if (requestCode == 1) {
-			if (isOnline()) {
-				if (ald3 != null) {
-					ald3.cancel();
-				}
-			} else {
-				ald2.show();
-			}
-		}
 	}
 	
 	protected void stopAll() {
 		if(ald2 != null) ald2.cancel();
 		if(ald1 != null) ald1.cancel();
-		if(ald != null) ald.cancel();
 		if(ald3 != null) ald3.cancel();
-		cdt.cancel();
+		try {
+		ft.cancel(true);
+		} catch(NullPointerException e) {}
 	}
 	
-	// Отключаемся от iBeacon
-	  @Override
-	  protected void onDestroy() {
-	    super.onDestroy();
-	  }
+	public class findTown extends AsyncTask<Void, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			
+		}
 
-	  // Проверка поддержки Bluetooth 4.0 и его состояния (вкл\выкл)
-	  @Override
-	  protected void onStart() {
-	    super.onStart();
-	  }
-
-	  @Override
-	  protected void onStop() {
-		  super.onStop();
-	  }
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			boolean break_c = true;
+			while(break_c) {
+				try { // Здесь определяется город и записывается в строку
+					myTown = findMyTown(g.getFromLocation(currLoc.getLatitude(),
+							currLoc.getLongitude(), 1).toString());
+					
+						if (myTown.equals("Казань")) {
+							act = 1;
+						} else if (myTown.equals("Набережные Челны")) {
+							act = 2;
+						} else {
+						}
+						ald2.cancel();
+						break_c = false;
+						Log.d("SP", Integer.toString(act));
+				} catch (IOException e) {
+					try {
+						if(isCancelled()) {
+							return null;
+						}
+						wait(500);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+					}
+				} 
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+		}
+	}
+	
 }
