@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Таймер</title>
+        <script type="text/javascript">
+            function init()
+            {
+                sec = 0;
+                setInterval(tick, 1000);
+            }
+            
+            function tick()
+            {
+                sec++;
+                document.getElementById("timer").
+                    childNodes[0].nodeValue = sec;
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <div id="timer">0</div>
+    </body>
+</html>

@@ -1,0 +1,81 @@
+<resources>
+
+    <string name="address">Address:</string>
+    <string name="btn_find_me">We are trying to find you. Please, wait..</string>
+    <string name="chelni_parkings">Chelni Parkings</string>
+    <string name="chistopolskaya">Chistopolskaya, 64/1</string>
+    <string name="city_parkings">City parkings</string>
+    <string name="daily">Daily 10:00-22:00</string>
+    <string name="denied">Sorry, error occured. Request is denied</string>
+    <string name="dlg_find_me">For operation of this function you need to enable location. Would you like to do it?</string>
+    <string name="dlg_find_me_city">Try to define your city?</string>
+    <string name="dlg_find_me_no">I will do it myself</string>
+    <string name="dlg_find_me_ok">Go</string>
+    <string name="dlg_find_me_yes">Yes</string>
+    <string name="error_occured">Sorry, error occured</string>
+    <string name="exit">Click once again to exit</string>
+    <string name="find_me">Find me</string>
+    <string name="gps_inform">It is impossible to receive information about your location. Please, enable GPS</string>
+    <string name="gps_status">Status of GPS</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="internet_connect_err">Error with Internet connection</string>
+    <string name="invalid_request">Sorry, error occured. Invalid request</string>
+    <string name="kazan_parkings">Kazan Pakings</string>
+    <string name="leave">Leave</string>
+    <string name="load_places">Search</string>
+    <string name="load_profile">Loading profile..</string>
+    <string name="menu">Menu</string>
+    <string name="menu_1">Payment</string>
+    <string name="menu_2">Pirmings and THAT</string>
+    <string name="menu_3">Near Parkings</string>
+    <string name="menu_4">Blank space</string>
+    <string name="name">Name:</string>
+    <string name="near_places">Near places</string>
+    <string name="no_bitch">No</string>
+    <string name="occured_error">Sorry, unknown error occured</string>
+    <string name="park">Let\'s park!</string>
+    <string name="payment">Payment</string>
+    <string name="petersburg">Peterburgskaya, 1</string>
+    <string name="phone">Phone number:</string>
+    <string name="place_error">Places error</string>
+    <string name="place_not_found">Sorry, no place found</string>
+    <string name="pobeda">40 let Pobedi, 52B</string>
+    <string name="query_limit">Sorry, query limit to Google Places is reached</string>
+    <string name="refresh">Refresh</string>
+    <string name="round_the_clock">Round the clock</string>
+    <string name="sample11_head">Location</string>
+    <string name="scheme_of_a_parking">Parking scheme</string>
+    <string name="search_nearby">Search nearby</string>
+    <string name="show_map">Show places on the map</string>
+    <string name="show_on_map">Show on the map</string>
+    <string name="street">Street:</string>
+    <string name="time">Time:</string>
+    <string name="time_base">Times in basis:</string>
+    <string name="title_activity_chistopolskaya">Chistopolskaya</string>
+    <string name="title_activity_garag500">Garage 500</string>
+    <string name="title_activity_info">Information</string>
+    <string name="title_activity_kazan_parks">Kazan Parkings</string>
+    <string name="title_activity_kolco">Shopping Center Koltso</string>
+    <string name="title_activity_kruiz">Cruise parking</string>
+    <string name="title_activity_oplata">Payment</string>
+    <string name="transportny">Transportniy proezd, 51/2 st1</string>
+    <string name="work_internet">Connect to the Intenet</string>
+    <string name="working_hours">Working hours:</string>
+    
+    <string-array name="ChelniParks">
+        <item>Choose a parking lot</item>
+        <item>Cruise Parking</item>
+        <item>Garag 500 Parking</item>
+    </string-array>
+    <string-array name="KazanParks">
+        <item>Choose a parking lot</item>
+        <item>Shopping Center Koltso</item>
+        <item>on Chistopolskaya st.</item>
+    </string-array>
+    <string-array name="spinner">
+        <item>Choose a city</item>
+        <item>Chelni</item>
+        <item>Kazan</item>
+    </string-array>
+
+</resources>
