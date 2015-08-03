@@ -35,17 +35,18 @@ public class JSONWorking extends AsyncTask <String, Void, ArrayList<HashMap<Stri
         JSONObject jbObject = null;
         try {
             jbObject = new JSONObject(params[0]);
+            JSONArray information = null;
+            try {
+                information = jbObject.getJSONArray("result");
+            } catch (JSONException e) {
+            	if(context!=null)
+            		Toast.makeText(context, "Error on Getting Array in JSON", Toast.LENGTH_SHORT).show();
+            }
         } catch (JSONException e) {
         	if(context!=null)
         		Toast.makeText(context, "Error in JSON", Toast.LENGTH_SHORT).show();
         }
-        JSONArray information = null;
-        try {
-            information = jbObject.getJSONArray("result");
-        } catch (JSONException e) {
-        	if(context!=null)
-        		Toast.makeText(context, "Error on Getting Array in JSON", Toast.LENGTH_SHORT).show();
-        }
+        
 
         String res = "";
 

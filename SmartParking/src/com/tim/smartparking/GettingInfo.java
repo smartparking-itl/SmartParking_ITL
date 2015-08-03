@@ -52,6 +52,7 @@ public class GettingInfo extends AsyncTask<String, Void, String> {
                         
                         httpURLConnection.disconnect();
                         return info;
+                        
                     } catch (IOException e) {
                     	if(context!=null)
                     		Toast.makeText(context, "Error in Stream URL", Toast.LENGTH_SHORT).show();
@@ -67,7 +68,6 @@ public class GettingInfo extends AsyncTask<String, Void, String> {
             		Toast.makeText(context, "Error in connection to URL", Toast.LENGTH_SHORT).show();
             }
             
-            }
 
         } catch (MalformedURLException e) {
         	if(context!=null)
