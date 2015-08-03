@@ -20,14 +20,15 @@ public class ServerTest extends Activity {
 	
 	String web_site = "http://www.testing44.rurs.net/"; // then we will change it
 	
-	private static ImageView[] ivCar = new ImageView[12];
+	private static int count_of_cars = 2;
+	private static ImageView[] ivCar = new ImageView[count_of_cars];
 	public static String LOG_TAG = "my_log";
 	public static String s = "";
 
 
 	  private static void setColorCars(String s) {
 		  int i;
-		  for(i = 0; i <= 1; i++) {
+		  for(i = 0; i < Math.min(count_of_cars, s.length()); i++) {
 			  if(s.charAt(i) == '0') {
 				  ivCar[i].setBackgroundResource(R.drawable.redcar);
 			  } else if(s.charAt(i) == '1') {
@@ -73,12 +74,53 @@ public class ServerTest extends Activity {
     }
 
 	private void get_place() {
-		
 		 GettingInfo info = new GettingInfo(getApplicationContext());
          String ginfo = "";
          
          try {
 			ginfo = info.execute(web_site).get(5000, TimeUnit.MILLISECONDS);
+			if(ginfo.equals("Error"))
+			{
+				Toast.makeText(getApplicationContext(), "Error getting info", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			JSONWorking jw = new JSONWorking(getApplicationContext());
+	         
+	         String scolor = "";
+	         
+	         try {
+					ArrayList<HashMap<String, String>>  res = jw.execute(ginfo).get();
+					
+				//	Log.e("json","done");
+					
+					if(res==null)
+					{
+						Toast.makeText(getApplicationContext(), "Error Array equals to null", Toast.LENGTH_SHORT).show();
+						return;
+					}
+		
+					for(int i = 0; i<res.size(); i++)
+					{
+						HashMap<String, String> item = res.get(i);
+						String used = item.get("Used");
+						char l = '0';
+						if(used.equals("true"))
+							l = '1';
+						scolor = scolor + l;
+					}
+					Log.e("scolor", scolor);
+		            setColorCars(scolor);
+				} catch (InterruptedException e) {
+					
+
+					Toast.makeText(getApplicationContext(), "Error in using JSON", Toast.LENGTH_SHORT).show();
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				} catch (ExecutionException e) {
+					Toast.makeText(getApplicationContext(), "Error in using JSON", Toast.LENGTH_SHORT).show();
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -88,43 +130,9 @@ public class ServerTest extends Activity {
 			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
 		} catch (TimeoutException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Error Time out", Toast.LENGTH_SHORT).show();
 		}
          
-         //Log.e("ginfo", ginfo);
-         
-         JSONWorking jw = new JSONWorking(getApplicationContext());
-         
-         String scolor = "";
-         
-         try {
-				ArrayList<HashMap<String, String>>  res = jw.execute(ginfo).get();
-				
-			//	Log.e("json","done");
-	
-				for(int i = 0; i<res.size(); i++)
-				{
-					HashMap<String, String> item = res.get(i);
-					String used = item.get("Used");
-					char l = '0';
-					if(used.equals("true"))
-						l = '1';
-					scolor = scolor + l;
-				}
-				Log.e("scolor", scolor);
-	            setColorCars(scolor);
-			} catch (InterruptedException e) {
-				
 
-				Toast.makeText(getApplicationContext(), "Error in using JSON", Toast.LENGTH_SHORT).show();
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			} catch (ExecutionException e) {
-				Toast.makeText(getApplicationContext(), "Error in using JSON", Toast.LENGTH_SHORT).show();
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
-		// TODO Auto-generated method stub
-		
 	}
 }

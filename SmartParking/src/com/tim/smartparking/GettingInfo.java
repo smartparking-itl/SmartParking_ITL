@@ -37,58 +37,45 @@ public class GettingInfo extends AsyncTask<String, Void, String> {
         URL url = null;
         try {
             url = new URL(params[0]);
-            Log.e("url", "url");
-        } catch (MalformedURLException e) {
-        	if(context!=null)
-        		Toast.makeText(context, "Error in getting URL", Toast.LENGTH_SHORT).show();
-        }
-        if(url!=null)
-        {
             HttpURLConnection httpURLConnection = null;
             try {
-            	Log.e("connection", "connection");
                 httpURLConnection = (HttpURLConnection) url.openConnection();
-                Log.e("connection", String.valueOf(httpURLConnection));
-            } catch (IOException e) {
-            	Log.e("here", "0001");
-            	if(context!=null)
-            		Toast.makeText(context, "Error in connection to URL", Toast.LENGTH_SHORT).show();
-            }
-            
-            Log.e("connection", "connected");
-
-            if(httpURLConnection!=null)
-            {
                 httpURLConnection.setDoInput(true);
                 InputStream in = null;
                 try {
                     in = new BufferedInputStream(httpURLConnection.getInputStream());
-                    Log.e("read", "read");
-                } catch (IOException e) {
-                	if(context!=null)
-                		Toast.makeText(context, "Error in Stream URL", Toast.LENGTH_SHORT).show();
-                }
-                if(in!=null)
-                {
-
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     try {
                         String inf = "";
                         while((inf = reader.readLine())!=null)
                             info += inf;
+                        
+                        httpURLConnection.disconnect();
+                        return info;
                     } catch (IOException e) {
-                        e.printStackTrace();
+                    	if(context!=null)
+                    		Toast.makeText(context, "Error in Stream URL", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    httpURLConnection.disconnect();
-                }
+                        
+                    } catch (IOException e) {
+                    	Toast.makeText(context, "Error in reading Line", Toast.LENGTH_SHORT).show();
+                    }
+                   
+                
+            } catch (IOException e) {
+            	if(context!=null)
+            		Toast.makeText(context, "Error in connection to URL", Toast.LENGTH_SHORT).show();
+            }
+            
             }
 
+        } catch (MalformedURLException e) {
+        	if(context!=null)
+        		Toast.makeText(context, "Error in getting URL", Toast.LENGTH_SHORT).show();
         }
-
-      // Log.e("setted", "setted");
-        return info;
+        
+        return "Error";
+        
         
     }
 }
