@@ -28,6 +28,7 @@ public class GettingInfo extends AsyncTask<String, Void, String> {
     	context = applicationContext;
 	}
 
+    
 	@Override
     protected String doInBackground(String... params) {
 		

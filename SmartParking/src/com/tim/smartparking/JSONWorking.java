@@ -25,6 +25,7 @@ public class JSONWorking extends AsyncTask <String, Void, ArrayList<HashMap<Stri
     	super();
     	context = applicationContext;
     	
+    	
 	}
 
 	@Override

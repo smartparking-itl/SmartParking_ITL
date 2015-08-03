@@ -102,6 +102,7 @@ public class ServerTest extends Activity {
 						Toast.makeText(getApplicationContext(), "Error Array equals to null", Toast.LENGTH_SHORT).show();
 						return;
 					}
+					
 		
 					for(int i = 0; i<res.size(); i++)
 					{
