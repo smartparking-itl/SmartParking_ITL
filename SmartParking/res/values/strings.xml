@@ -66,7 +66,7 @@
     <string name="city_parkings">Парковки города</string>
     <string name="find_me">Найти меня</string>
     <string name="btn_find_me">Мы пытаемся найти вас. Пожалуйста, подождите...</string>
-    <string name="dlg_find_me">Для работы этой функции нужно включить местоположение по сетям. Перейти в настройки, чтобы сделать это?</string>
+    <string name="dlg_find_me">Для работы этой функции нужно включить местоположение по сетям</string>
     <string name="dlg_find_me_ok">Перейти</string>
     <string name="dlg_find_me_no">Я сам выберу город</string>
     <string name="dlg_find_me_city">Определить ваш город?</string>
