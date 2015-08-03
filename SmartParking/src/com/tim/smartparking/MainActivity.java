@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -129,9 +130,9 @@ public class MainActivity extends Activity {
 		ad = new AlertDialog.Builder(this);
 
 		// Тут создаются AlertDialog'и
-		ad.setMessage(R.string.btn_find_me);
 		ad.setPositiveButton("", null);
 		ad.setNegativeButton("", null);
+		ad.setView((LinearLayout) getLayoutInflater().inflate(R.layout.alert_dialog, null));
 		ald2 = ad.create();
 		if (ald2 != null) {
 			ald2.setOnCancelListener(new OnCancelListener() {
@@ -149,7 +150,7 @@ public class MainActivity extends Activity {
 		}
 
 		ad.setMessage(R.string.dlg_find_me);
-		ad.setNegativeButton("Хорошо", new DialogInterface.OnClickListener() {
+		ad.setNeutralButton("Хорошо", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -161,7 +162,7 @@ public class MainActivity extends Activity {
 
 		ad.setTitle("Нет доступа в Интернет");
 		ad.setMessage("Для работы этой функции необходим доступ к интернету");
-		ad.setNegativeButton("Хорошо", new DialogInterface.OnClickListener() {
+		ad.setNeutralButton("Хорошо", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
