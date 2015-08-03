@@ -29,9 +29,9 @@ public class ServerTest extends Activity {
 	  private static void setColorCars(String s) {
 		  int i;
 		  for(i = 0; i < Math.min(count_of_cars, s.length()); i++) {
-			  if(s.charAt(i) == '0') {
+			  if(s.charAt(i) == '1') {
 				  ivCar[i].setBackgroundResource(R.drawable.redcar);
-			  } else if(s.charAt(i) == '1') {
+			  } else{
 				  ivCar[i].setBackgroundResource(R.drawable.greencar);
 			  }
 		  }
@@ -108,12 +108,9 @@ public class ServerTest extends Activity {
 					{
 						HashMap<String, String> item = res.get(i);
 						String used = item.get("Used");
-						char l = '0';
-						if(used.equals("true"))
-							l = '1';
-						scolor = scolor + l;
+						
+						scolor = scolor + used;
 					}
-					Log.e("scolor", scolor);
 		            setColorCars(scolor);
 				} catch (InterruptedException e) {
 					
