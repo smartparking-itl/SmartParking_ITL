@@ -121,7 +121,7 @@ public class ServerTest extends Activity {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();
 				}
-			
+			//test
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
