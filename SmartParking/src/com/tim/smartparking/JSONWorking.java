@@ -38,52 +38,57 @@ public class JSONWorking extends AsyncTask <String, Void, ArrayList<HashMap<Stri
             JSONArray information = null;
             try {
                 information = jbObject.getJSONArray("result");
+                String res = "";
+
+                for(int i = 0; i<information.length(); i++)
+                {
+                    JSONObject jObject = null;
+                    try {
+                        jObject = information.getJSONObject(i);
+                        HashMap<String, String> new_item = new HashMap<String, String>();
+                        
+                        try {
+
+                            String number = jObject.getString("number");
+                            String used = jObject.getString("used");
+                            String useful = jObject.getString("useful");
+                            
+
+                            if(used.equals("0"))
+                                used = "false";
+                            else used = "true";
+
+                            new_item.put("Number", number);
+                            new_item.put("Used", used);
+                            new_item.put("Useful", useful);
+                            result.add(new_item);
+
+                        } catch (JSONException e) {
+                    		result.clear();
+                        //	if(context!=null)
+                      //  		Toast.makeText(context, "Second Error in getting Object " + i + " in Json", Toast.LENGTH_SHORT).show();
+                        }
+                    
+                        
+                    } catch (JSONException e) {
+                    	result.clear();
+                    //	if(context!=null)
+                  //  		Toast.makeText(context, "First Error in getting Object " + i + " in Json", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                    
+                
             } catch (JSONException e) {
-            	if(context!=null)
-            		Toast.makeText(context, "Error on Getting Array in JSON", Toast.LENGTH_SHORT).show();
+            	result.clear();
+            	//if(context!=null)
+            		//Toast.makeText(context, "Error on Getting Array in JSON", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
-        	if(context!=null)
-        		Toast.makeText(context, "Error in JSON", Toast.LENGTH_SHORT).show();
+        	result.clear();
+        	//if(context!=null)
+        		//Toast.makeText(context, "Error in JSON", Toast.LENGTH_SHORT).show();
         }
         
-
-        String res = "";
-
-        for(int i = 0; i<information.length(); i++)
-        {
-            JSONObject jObject = null;
-            try {
-                jObject = information.getJSONObject(i);
-            } catch (JSONException e) {
-            	if(context!=null)
-            		Toast.makeText(context, "First Error in getting Object " + i + " in Json", Toast.LENGTH_SHORT).show();
-            }
-            HashMap<String, String> new_item = new HashMap<String, String>();
-            try {
-
-                String number = jObject.getString("number");
-                String used = jObject.getString("used");
-                String useful = jObject.getString("useful");
-                
-
-                if(used.equals("0"))
-                    used = "false";
-                else used = "true";
-
-                new_item.put("Number", number);
-                new_item.put("Used", used);
-                new_item.put("Useful", useful);
-
-            } catch (JSONException e) {
-            	if(context!=null)
-            		Toast.makeText(context, "Second Error in getting Object " + i + " in Json", Toast.LENGTH_SHORT).show();
-            }
-
-            result.add(new_item);
-
-        }
-
-        return result;
+       return result;
     }
 }

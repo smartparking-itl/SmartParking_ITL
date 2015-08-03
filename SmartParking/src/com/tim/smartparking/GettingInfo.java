@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,24 +55,31 @@ public class GettingInfo extends AsyncTask<String, Void, String> {
                         return info;
                         
                     } catch (IOException e) {
-                    	if(context!=null)
-                    		Toast.makeText(context, "Error in Stream URL", Toast.LENGTH_SHORT).show();
+                    	Log.e("m", "I m here3");
+                   //	if(context!=null)
+                    //		Toast.makeText(context, "Error in Stream URL", Toast.LENGTH_SHORT).show();
                     }
                         
                     } catch (IOException e) {
-                    	Toast.makeText(context, "Error in reading Line", Toast.LENGTH_SHORT).show();
+                    	Log.e("m", "I m here2");
+                    	//if(context!=null)
+                    		//Toast.makeText(context, "Error in reading Line", Toast.LENGTH_SHORT).show();
                     }
                    
                 
             } catch (IOException e) {
-            	if(context!=null)
-            		Toast.makeText(context, "Error in connection to URL", Toast.LENGTH_SHORT).show();
+            	Log.e("m", "I m here");
+            	//if(context!=null)
+            		//Toast.makeText(context, "Error in connection to URL", Toast.LENGTH_SHORT).show();
             }
-            
+         /*   catch(ConnectException e){
+            	if(context!=null)
+            		Toast.makeText(context, "Error in connecting", Toast.LENGTH_SHORT).show();
+            }*/
 
         } catch (MalformedURLException e) {
-        	if(context!=null)
-        		Toast.makeText(context, "Error in getting URL", Toast.LENGTH_SHORT).show();
+        //	if(context!=null)
+        		//Toast.makeText(context, "Error in getting URL", Toast.LENGTH_SHORT).show();
         }
         
         return "Error";

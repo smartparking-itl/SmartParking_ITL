@@ -78,17 +78,21 @@ public class ServerTest extends Activity {
          String ginfo = "";
          
          try {
+        // Log.e("here", "111w");
 			ginfo = info.execute(web_site).get(5000, TimeUnit.MILLISECONDS);
+			//Log.e("here", "222w");
 			if(ginfo.equals("Error"))
 			{
 				Toast.makeText(getApplicationContext(), "Error getting info", Toast.LENGTH_SHORT).show();
 				return;
 			}
+			Log.e("Error", "eroric");
 			JSONWorking jw = new JSONWorking(getApplicationContext());
 	         
-	         String scolor = "";
-	         
+	        String scolor = "";
+	         Log.e("er", "tut");
 	         try {
+	        	 Log.e("er", "perhaps here");
 					ArrayList<HashMap<String, String>>  res = jw.execute(ginfo).get();
 					
 				//	Log.e("json","done");
@@ -124,10 +128,10 @@ public class ServerTest extends Activity {
 			//test
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Error 1", Toast.LENGTH_SHORT).show();
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Error 2", Toast.LENGTH_SHORT).show();
 		} catch (TimeoutException e) {
 			// TODO Auto-generated catch block
 			Toast.makeText(getApplicationContext(), "Error Time out", Toast.LENGTH_SHORT).show();
