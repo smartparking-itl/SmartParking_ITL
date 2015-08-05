@@ -1,4 +1,4 @@
-*.cache
-*.txt
-*.jar
-*~
+/*.cache
+/*.txt
+/*.jar
+/*~
