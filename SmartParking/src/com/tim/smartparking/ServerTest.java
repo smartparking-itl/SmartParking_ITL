@@ -1,13 +1,5 @@
 package com.tim.smartparking;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -16,10 +8,12 @@ import java.util.concurrent.TimeoutException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,6 +119,16 @@ public class ServerTest extends Activity {
 				        v.setBackgroundResource(R.drawable.bluecar);
 				        ((TextView)v).setText(name);
 				        Toast.makeText(ServerTest.this, "Saved", Toast.LENGTH_SHORT).show();
+				        Notification.Builder nb = new Notification.Builder(getApplicationContext());
+				        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+				        nm.cancel(5);
+				        nb.setOngoing(true)
+				          .setSmallIcon(R.drawable.ic_launcher)
+				          .setContentText("Вы припарковались на месте "+ v.getId())
+				          .setContentTitle("Smart Parking")
+				          .setWhen(System.currentTimeMillis())
+				          .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), ServerTest.class), PendingIntent.FLAG_UPDATE_CURRENT));
+				        nm.notify(5, nb.build());
 				        refresh();
 						return false;
 					}
@@ -145,7 +148,6 @@ public class ServerTest extends Activity {
 		
 		((TextView)(findViewById(R.id.imageView1))).setOnClickListener(new OnClickListener() {
 			
-			private int i = 0;
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -195,6 +197,7 @@ public class ServerTest extends Activity {
 				            GettingInfo gf = new GettingInfo(ServerTest.this);
 				            try {
 								try {
+									@SuppressWarnings("unused")
 									String inf = gf.execute(web_site + "?nom=" + nom + "&val=" +  val).get(3000, TimeUnit.MILLISECONDS);
 								} catch (TimeoutException e) {
 									// TODO Auto-generated catch block
