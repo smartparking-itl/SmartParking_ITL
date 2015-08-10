@@ -17,38 +17,62 @@ import java.util.concurrent.TimeoutException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServerTest extends Activity {
 	
 	String web_site = "http://www.testing44.rurs.net/"; // then we will change it
 	
-	private static int count_of_cars = 2;
-	private static ImageView[] ivCar = new ImageView[count_of_cars];
-	public static String LOG_TAG = "my_log";
+	private static int count_of_cars = 3;
 	public static String s = "";
 	private int sch = 0;
+	private int id = -1;
 	private double TimeIn = 0;
 	
 
 
-	  private static void setColorCars(String s) {
-		  int i;
-		  for(i = 0; i < Math.min(count_of_cars, s.length()); i++) {
-			  if(s.charAt(i) == '1') {
-				  ivCar[i].setBackgroundResource(R.drawable.redcar);
-			  } else{
-				  ivCar[i].setBackgroundResource(R.drawable.greencar);
+	  private void setColorCars(String s) {
+		  
+		  RelativeLayout rl = (RelativeLayout)findViewById(R.id.batya);
+		  count_of_cars = rl.getChildCount();
+		  
+		  for(int i = 0, v = 0; i < Math.min(count_of_cars, s.length()) && v<count_of_cars; v++) {
+			  
+			  if(!(rl.getChildAt(v) instanceof TextView))
+			  {
+				//  Log.e("view", String.valueOf(rl.getChildAt(v)));
+				  continue;
 			  }
+			  
+			  if(rl.getChildAt(v) instanceof Button)
+			  {
+				//  Log.e("view", String.valueOf(rl.getChildAt(v)));
+				  continue;
+			  }
+
+			  if(s.charAt(i) == '1') {
+				  ((TextView)rl.getChildAt(v)).setBackgroundResource(R.drawable.redcar);
+			  } else{
+				  ((TextView)rl.getChildAt(v)).setBackgroundResource(R.drawable.greencar);
+			  }
+			  i++;
 		  }
+		  
+		  if(id!=-1)
+			  ((TextView)findViewById(id)).setBackgroundResource(R.drawable.bluecar);
 	  }
  
     @Override
@@ -67,10 +91,58 @@ public class ServerTest extends Activity {
 			}
         	
         };*/
-		ivCar[0] = (ImageView) findViewById(R.id.imageView2);
-		ivCar[1] = (ImageView) findViewById(R.id.ImageView3);
 		
-		ivCar[0].setOnClickListener(new OnClickListener() {
+		
+		SharedPreferences storage = this.getSharedPreferences("Configuration", MODE_MULTI_PROCESS);
+		final String name = storage.getString("name", "Me");
+		id = storage.getInt("id", -1);
+		Log.e("eclipse", "eclispe");
+		
+		 RelativeLayout rl = (RelativeLayout)findViewById(R.id.batya);
+		 count_of_cars = rl.getChildCount();
+		  
+		  for(int i = 0; i <count_of_cars; i++) {
+			  
+			  if(!(rl.getChildAt(i) instanceof TextView))
+			  {
+				  continue;
+			  }
+			  ((TextView)rl.getChildAt(i)).setOnLongClickListener(new OnLongClickListener() {
+				
+					@Override
+					public boolean onLongClick(View v) {
+						// TODO Auto-generated method stub
+				        SharedPreferences storage = ServerTest.this.getSharedPreferences("Configuration", MODE_MULTI_PROCESS);
+				        SharedPreferences.Editor editor = storage.edit();
+				        int hd = storage.getInt("id", -1);
+				        if(hd!=-1)
+				        {
+				        	((TextView)findViewById(hd)).setText("");
+				        }
+				        editor.putInt("id", v.getId());
+				        id = v.getId();
+				        editor.commit();
+				        v.setBackgroundResource(R.drawable.bluecar);
+				        ((TextView)v).setText(name);
+				        Toast.makeText(ServerTest.this, "Saved", Toast.LENGTH_SHORT).show();
+				        refresh();
+						return false;
+					}
+			  });
+			}
+			
+
+		
+		
+		if(id!=-1)
+		{
+			((TextView)findViewById(id)).setBackgroundResource(R.drawable.bluecar);
+			((TextView)findViewById(id)).setText(name);
+		}
+		
+
+		
+		((TextView)(findViewById(R.id.imageView1))).setOnClickListener(new OnClickListener() {
 			
 			private int i = 0;
 			@Override
@@ -171,6 +243,12 @@ public class ServerTest extends Activity {
 			}
 		});
     }
+
+	protected void refresh() {
+		get_place();
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void get_place() {
 		 GettingInfo info = new GettingInfo(getApplicationContext());

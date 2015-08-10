@@ -4,4 +4,6 @@
     <color name="list_background_pressed">#ссс</color>   
     <color name="drawer_item_color">#fff</color> 
     <color name="list_divider">#5e5e5e</color>
+    <color name="choosen">#ffd700</color>
+    
 </resources>

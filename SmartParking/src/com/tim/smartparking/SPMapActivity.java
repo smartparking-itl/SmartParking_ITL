@@ -61,8 +61,8 @@ public class SPMapActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kolco_map1);
 
-		ivCar[0] = (ImageView) findViewById(R.id.imageView2);
-		ivCar[1] = (ImageView) findViewById(R.id.ImageView3);
+	/*	ivCar[0] = (ImageView) findViewById(R.id.imageView2);
+		ivCar[1] = (ImageView) findViewById(R.id.ImageView3);*/
 		iv = (SPImageView) findViewById(R.id.spiv1);
 		iv.setOnTouchListener(new OnTouchListener() {
 

@@ -111,5 +111,9 @@
     <string name="transportny">Транспортный проезд, 51/2 ст1</string>
     <string name="pobeda">40 лет Победы, 52Б</string>
     <string name="title_activity_camera">Camera</string>
+    <string name="title_activity_configuration">Configuration</string>
+    <string name="type_here">Type here</string>
+    <string name="save">Save</string>
+    <string name="e_refresh">Refresh</string>
 
 </resources>

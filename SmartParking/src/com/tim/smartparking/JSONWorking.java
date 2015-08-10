@@ -56,8 +56,8 @@ public class JSONWorking extends AsyncTask <String, Void, ArrayList<HashMap<Stri
                             
 
                             if(used.equals("0"))
-                                used = "false";
-                            else used = "true";
+                                used = "0";
+                            else used = "1";
 
                             new_item.put("Number", number);
                             new_item.put("Used", used);
