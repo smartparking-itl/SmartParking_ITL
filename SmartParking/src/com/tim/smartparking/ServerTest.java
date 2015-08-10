@@ -82,6 +82,7 @@ public class ServerTest extends Activity {
         //setContentView(R.layout.kolco_map);
         
         
+        
        /* OnClickListener ocl = new OnClickListener() {
 
 			@Override
