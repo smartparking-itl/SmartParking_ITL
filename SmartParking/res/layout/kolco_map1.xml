@@ -123,6 +123,17 @@
                android:layout_below="@id/imageView8"
                android:layout_marginTop="2.5dp"
                android:background="@drawable/redcar" />
+   			         
+   			            			         <TextView
+               android:id="@+id/hel"
+               android:layout_width="40dp"
+               android:layout_height="22dp"
+               android:textColor="@color/choosen"
+               android:layout_alignLeft="@id/imageView2"
+               android:layout_below="@id/imageView9"
+               android:layout_marginTop="2.5dp"
+               android:visibility="invisible"
+               android:background="@drawable/redcar" />
 
         </RelativeLayout>
         

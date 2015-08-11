@@ -16,24 +16,32 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ServerTest extends Activity {
+public class ServerTest extends Activity implements OnTouchListener {
 	
 	String web_site = "http://www.testing44.rurs.net/"; // then we will change it
 	
-	private static int count_of_cars = 3;
+	private static int count_of_cars = 10;
 	public static String s = "";
 	private int sch = 0;
 	private int id = -1;
 	private double TimeIn = 0;
+
+	private boolean down = false;
+
+	private long ins;
 	
 
 
@@ -62,7 +70,9 @@ public class ServerTest extends Activity {
 				  ((TextView)rl.getChildAt(v)).setBackgroundResource(R.drawable.greencar);
 			  }
 			  i++;
+			  
 		  }
+		  ((TextView)findViewById(R.id.hel)).setBackgroundResource(R.drawable.redcar);
 		  
 		  if(id!=-1)
 			  ((TextView)findViewById(id)).setBackgroundResource(R.drawable.bluecar);
@@ -72,6 +82,23 @@ public class ServerTest extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kolco_map1);
+        
+        ((ImageView)findViewById(R.id.spiv1)).setOnTouchListener(this);
+        ((TextView)findViewById(R.id.hel)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				// TODO Auto-generated method stub
+				//v.setRotationX(v.getRotationX()+10);
+				//v.setRotationY(v.getRotationY()+10);
+				v.setRotation(v.getRotation()+45);
+		        SharedPreferences storage = ServerTest.this.getSharedPreferences("Configuration", MODE_MULTI_PROCESS);
+		        SharedPreferences.Editor editor = storage.edit();
+		        editor.putInt("rotation", (int) v.getRotation());
+		        editor.commit();
+			}
+		});
         //setContentView(R.layout.kolco_map);
         
         
@@ -101,6 +128,8 @@ public class ServerTest extends Activity {
 			  {
 				  continue;
 			  }
+			//  if(rl.getChildAt(i).getId()==R.id.hel)
+				//  continue;
 			  ((TextView)rl.getChildAt(i)).setOnLongClickListener(new OnLongClickListener() {
 				
 					@Override
@@ -142,6 +171,16 @@ public class ServerTest extends Activity {
 		{
 			((TextView)findViewById(id)).setBackgroundResource(R.drawable.bluecar);
 			((TextView)findViewById(id)).setText(name);
+			
+	        SharedPreferences storage1 = ServerTest.this.getSharedPreferences("Configuration", MODE_MULTI_PROCESS);
+			LayoutParams lp = new LayoutParams(((TextView)findViewById(R.id.hel)).getLayoutParams());
+			lp.leftMargin = (int) storage1.getInt("x", 0);
+			lp.topMargin = (int) storage1.getInt("y", 0);
+			((TextView)findViewById(R.id.hel)).setLayoutParams(lp);
+			((TextView)findViewById(R.id.hel)).setRotation(storage1.getInt("rotation", 0));
+			
+			if(id==R.id.hel)
+				((TextView)findViewById(R.id.hel)).setVisibility(View.VISIBLE);
 		}
 		
 
@@ -257,10 +296,11 @@ public class ServerTest extends Activity {
 	private void get_place() {
 		 GettingInfo info = new GettingInfo(getApplicationContext());
          String ginfo = "";
+	     String scolor = "";
          
          try {
         // Log.e("here", "111w");
-			ginfo = info.execute(web_site).get(5000, TimeUnit.MILLISECONDS);
+			ginfo = info.execute(web_site).get(7000, TimeUnit.MILLISECONDS);
 			//Log.e("here", "222w");
 			if(ginfo.equals("Error"))
 			{
@@ -274,7 +314,7 @@ public class ServerTest extends Activity {
 			
 			JSONWorking jw = new JSONWorking(getApplicationContext());
 	         
-	        String scolor = "";
+
 	         try {
 					ArrayList<HashMap<String, String>>  res = jw.execute(ginfo).get();
 					
@@ -294,7 +334,6 @@ public class ServerTest extends Activity {
 						
 						scolor = scolor + used;
 					}
-		            setColorCars(scolor);
 				} catch (InterruptedException e) {
 					
 
@@ -318,6 +357,63 @@ public class ServerTest extends Activity {
 			Toast.makeText(getApplicationContext(), "Error Time out", Toast.LENGTH_SHORT).show();
 		}
          
+         setColorCars(scolor);
+	}
 
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		
+		//Toast.makeText(ServerTest.this, (int) v.getId(), Toast.LENGTH_SHORT).show();
+		//Log.e("sp", String.valueOf(R.id.spiv1));
+		
+		if(v.getId()==R.id.spiv1)
+		{
+			if(event.getAction()==MotionEvent.ACTION_DOWN)
+			{
+				if(!down)
+				{
+					down = true;
+					ins = System.currentTimeMillis();
+					//Toast.makeText(ServerTest.this, (int) System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					long now = System.currentTimeMillis();
+					if((now-ins)*0.001<=3)
+					{
+						float x = event.getX();
+						float y = event.getY();
+						//Toast.makeText(ServerTest.this, (int) System.currentTimeMillis() + "out", Toast.LENGTH_SHORT).show();
+						
+						LayoutParams lp = new LayoutParams(((TextView)findViewById(R.id.hel)).getLayoutParams());
+						lp.leftMargin = (int) x;
+						lp.topMargin = (int) y;
+						((TextView)findViewById(R.id.hel)).setLayoutParams(lp);
+						((TextView)findViewById(R.id.hel)).setVisibility(View.VISIBLE);
+						
+						
+				        SharedPreferences storage = ServerTest.this.getSharedPreferences("Configuration", MODE_MULTI_PROCESS);
+				        SharedPreferences.Editor editor = storage.edit();
+				        editor.putInt("x", (int) x);
+				        editor.putInt("y", (int) y);
+				        editor.commit();
+						
+						
+						down = false;
+						ins = 0;
+					}
+					else
+					{
+						down = true;
+						ins = now;
+					}
+
+				}
+			}
+		}
+			
+			
+		return false;
 	}
 }
