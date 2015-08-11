@@ -124,6 +124,7 @@
                android:layout_marginTop="2.5dp"
                android:background="@drawable/redcar" />
    			         
+   			         
    			            			         <TextView
                android:id="@+id/hel"
                android:layout_width="40dp"

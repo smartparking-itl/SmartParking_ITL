@@ -71,6 +71,7 @@ public class ServerTest extends Activity implements OnTouchListener {
 			  }
 			  i++;
 			  
+			  
 		  }
 		  ((TextView)findViewById(R.id.hel)).setBackgroundResource(R.drawable.redcar);
 		  
