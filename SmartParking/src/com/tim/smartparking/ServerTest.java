@@ -50,6 +50,8 @@ public class ServerTest extends Activity implements OnTouchListener {
 		  RelativeLayout rl = (RelativeLayout)findViewById(R.id.batya);
 		  count_of_cars = rl.getChildCount();
 		  
+		  while(count_of_cars<s.length())
+			  s += "0";
 		  for(int i = 0, v = 0; i < Math.min(count_of_cars, s.length()) && v<count_of_cars; v++) {
 			  
 			  if(!(rl.getChildAt(v) instanceof TextView))
@@ -200,7 +202,7 @@ public class ServerTest extends Activity implements OnTouchListener {
 				
 				double TimeOut = System.currentTimeMillis();
 				
-				if((TimeOut-TimeIn)*0.001<=15) sch++;
+				if((TimeOut-TimeIn)<=1000) sch++;
 				else sch = 0;
 				
 				if(sch==8)
@@ -381,7 +383,7 @@ public class ServerTest extends Activity implements OnTouchListener {
 				else
 				{
 					long now = System.currentTimeMillis();
-					if((now-ins)*0.001<=3)
+					if((now-ins)<=500)
 					{
 						float x = event.getX();
 						float y = event.getY();
