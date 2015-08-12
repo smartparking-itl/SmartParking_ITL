@@ -216,6 +216,7 @@ public class MainActivity extends Activity {
 					((Spinner)findViewById(R.id.spinner1)).setAdapter(new ArrayAdapter<String>(MainActivity.this, 
 							android.R.layout.simple_list_item_1,
 							MainActivity.this.getResources().getStringArray(R.array.ChelniParks)));
+					((Spinner)findViewById(R.id.spinner1)).performClick();
 					((Spinner)findViewById(R.id.spinner1)).setVisibility(View.VISIBLE);
 					((Button)findViewById(R.id.button1)).setVisibility(View.VISIBLE);//Chelny
 					break;
@@ -223,6 +224,7 @@ public class MainActivity extends Activity {
 					((Spinner)findViewById(R.id.spinner1)).setAdapter(new ArrayAdapter<String>(MainActivity.this,
 							android.R.layout.simple_list_item_1, 
 							MainActivity.this.getResources().getStringArray(R.array.KazanParks)));
+					((Spinner)findViewById(R.id.spinner1)).performClick();
 					((Spinner)findViewById(R.id.spinner1)).setVisibility(View.VISIBLE);
 					((Button)findViewById(R.id.button1)).setVisibility(View.VISIBLE);//Kazan
 					break;
