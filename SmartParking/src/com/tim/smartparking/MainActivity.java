@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -183,6 +184,7 @@ public class MainActivity extends Activity {
 				if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) { // Если
 																				// выключен
 																				// GPS
+					
 					ald1.show();
 				} else {
 					if (!isOnline()) {
@@ -207,16 +209,22 @@ public class MainActivity extends Activity {
 
 				switch (arg2) {
 				case 0:
+					((Spinner)findViewById(R.id.spinner1)).setVisibility(View.INVISIBLE);
+					((Button)findViewById(R.id.button1)).setVisibility(View.INVISIBLE);
 					break;
 				case 1:
-					Intent i = new Intent();
-					i.setClass(MainActivity.this, ChelniParks.class);
-					startActivity(i);
+					((Spinner)findViewById(R.id.spinner1)).setAdapter(new ArrayAdapter<String>(MainActivity.this, 
+							android.R.layout.simple_list_item_1,
+							MainActivity.this.getResources().getStringArray(R.array.ChelniParks)));
+					((Spinner)findViewById(R.id.spinner1)).setVisibility(View.VISIBLE);
+					((Button)findViewById(R.id.button1)).setVisibility(View.VISIBLE);//Chelny
 					break;
 				case 2:
-					Intent ir = new Intent();
-					ir.setClass(MainActivity.this, KazanParks.class);
-					startActivity(ir);
+					((Spinner)findViewById(R.id.spinner1)).setAdapter(new ArrayAdapter<String>(MainActivity.this,
+							android.R.layout.simple_list_item_1, 
+							MainActivity.this.getResources().getStringArray(R.array.KazanParks)));
+					((Spinner)findViewById(R.id.spinner1)).setVisibility(View.VISIBLE);
+					((Button)findViewById(R.id.button1)).setVisibility(View.VISIBLE);//Kazan
 					break;
 				}
 			}
@@ -225,6 +233,55 @@ public class MainActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
 
+			}
+		});
+		
+		((Spinner)findViewById(R.id.spinner1)).setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if(((Spinner)findViewById(R.id.spinner)).getSelectedItemPosition()==1)
+				{
+					switch(position)
+					{
+		            	case 0:
+		            		break;
+                       case 1:
+                    	   Intent i = new Intent();
+						   i.setClass(MainActivity.this, Kruiz.class);
+						   startActivity(i);			                                 
+						   break;
+                       case 2:
+                    	   Intent ir = new Intent();
+                    	   ir.setClass(MainActivity.this, Garag500.class);
+                    	   startActivity(ir);
+                    	   break;
+					}
+				}
+				else
+				{
+					switch(position)
+					{
+						case 0 : break;
+                        case 1:
+                     	   		Intent i = new Intent();
+                     	   		i.setClass(MainActivity.this, Kolco.class);
+                     	   		startActivity(i);
+                     	   		break;
+                        case 2:
+     	                 		Intent ir = new Intent();
+     	                 		ir.setClass(MainActivity.this, Chistopolskaya.class);
+     	                 		startActivity(ir);
+     	                 		break;
+					}
+				}
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -288,9 +345,9 @@ public class MainActivity extends Activity {
 
 	public void startAct() {
 		if (act == 1) {
-			startActivity(new Intent(this, KazanParks.class));
+			((Spinner)findViewById(R.id.spinner)).setSelection(1);
 		} else if (act == 2) {
-			startActivity(new Intent(this, ChelniParks.class));
+			((Spinner)findViewById(R.id.spinner)).setSelection(2);
 		}
 	}
 
@@ -340,9 +397,9 @@ public class MainActivity extends Activity {
 							.toString());
 
 					if (myTown.equals("Казань")) {
-						act = 1;
-					} else if (myTown.equals("Набережные Челны")) {
 						act = 2;
+					} else if (myTown.equals("Набережные Челны")) {
+						act = 1;
 					} else {
 					}
 					break_c = false;
@@ -382,6 +439,21 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	public void onFind(View v) {
+		if(((Spinner)findViewById(R.id.spinner)).getSelectedItemPosition()==2) {
+			Intent intent = new Intent(); 
+			intent.setClass(this, GooglePlaceActivity.class); 
+			startActivity(intent); 
+		}
+		else
+		{
+			Intent intent = new Intent(); 
+			intent.setClass(this, BeaconMap.class); 
+			startActivity(intent); 
+		}
+	}
+	
 	
 
 }
