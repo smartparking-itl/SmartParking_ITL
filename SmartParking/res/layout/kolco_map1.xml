@@ -36,105 +36,114 @@
             />
            
                       <TextView
-               android:id="@+id/imageView1"
-               android:layout_width="40dp"
-			   android:textColor="@color/choosen"
-               android:layout_height="22dp"
-               android:layout_marginTop="86dp"
-               android:layout_marginStart="92dp"
-               android:background="@drawable/redcar" />
+                          android:id="@+id/imageView1"
+                          android:layout_width="40dp"
+                          android:layout_height="22dp"
+                          android:layout_marginStart="92dp"
+                          android:layout_marginTop="86dp"
+                          android:background="@drawable/redcar"
+                          android:tag="1"
+                          android:textColor="@color/choosen" />
                       
                       <TextView
-		     android:id="@+id/imageView2"
-		     android:layout_width="40dp"
-		     android:layout_height="22dp"
-		     android:textColor="@color/choosen"
-     		 android:layout_marginTop="2.5dp"
-		     android:layout_alignLeft="@id/imageView1"
-		     android:layout_below="@id/imageView1"
-		     android:background="@drawable/redcar" />
+                          android:id="@+id/imageView2"
+                          android:layout_width="40dp"
+                          android:layout_height="22dp"
+                          android:layout_alignLeft="@id/imageView1"
+                          android:layout_below="@id/imageView1"
+                          android:layout_marginTop="2.5dp"
+                          android:background="@drawable/redcar"
+                          android:tag="2"
+                          android:textColor="@color/choosen" />
 
           			 <TextView
-               android:id="@+id/imageView3"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView2"
-               android:layout_marginTop="2.5dp"
-               android:background="@drawable/redcar" />
+          			     android:id="@+id/imageView3"
+          			     android:layout_width="40dp"
+          			     android:layout_height="22dp"
+          			     android:layout_alignLeft="@id/imageView2"
+          			     android:layout_below="@id/imageView2"
+          			     android:layout_marginTop="2.5dp"
+          			     android:background="@drawable/redcar"
+          			     android:tag="3"
+          			     android:textColor="@color/choosen" />
 
           			 <TextView
-               android:id="@+id/imageView4"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView3"
-               android:layout_marginTop="3.5dp"
-               android:background="@drawable/redcar" />
+          			     android:id="@+id/imageView4"
+          			     android:layout_width="40dp"
+          			     android:layout_height="22dp"
+          			     android:layout_alignLeft="@id/imageView2"
+          			     android:layout_below="@id/imageView3"
+          			     android:layout_marginTop="3.5dp"
+          			     android:background="@drawable/redcar"
+          			     android:tag="4"
+          			     android:textColor="@color/choosen" />
 
           			 <TextView
-               android:id="@+id/imageView5"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView4"
-               android:layout_below="@id/imageView4"
-               android:layout_marginTop="2.5dp"
-               android:background="@drawable/redcar" />
+          			     android:id="@+id/imageView5"
+          			     android:layout_width="40dp"
+          			     android:layout_height="22dp"
+          			     android:layout_alignLeft="@id/imageView4"
+          			     android:layout_below="@id/imageView4"
+          			     android:layout_marginTop="2.5dp"
+          			     android:background="@drawable/redcar"
+          			     android:tag="5"
+          			     android:textColor="@color/choosen" />
           			 
           			 <TextView
-               android:id="@+id/imageView6"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView5"
-               android:layout_marginTop="7dp"
-               android:background="@drawable/redcar" />
+          			     android:id="@+id/imageView6"
+          			     android:layout_width="40dp"
+          			     android:layout_height="22dp"
+          			     android:layout_alignLeft="@id/imageView2"
+          			     android:layout_below="@id/imageView5"
+          			     android:layout_marginTop="7dp"
+          			     android:background="@drawable/redcar"
+          			     android:tag="6"
+          			     android:textColor="@color/choosen" />
 
           			 <TextView
-               android:id="@+id/imageView7"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView6"
-               android:layout_marginTop="2.5dp"
-               android:background="@drawable/redcar" />
+          			     android:id="@+id/imageView7"
+          			     android:layout_width="40dp"
+          			     android:layout_height="22dp"
+          			     android:layout_alignLeft="@id/imageView2"
+          			     android:layout_below="@id/imageView6"
+          			     android:layout_marginTop="2.5dp"
+          			     android:background="@drawable/redcar"
+          			     android:tag="7"
+          			     android:textColor="@color/choosen" />
 
           			 <TextView
-               android:id="@+id/imageView8"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView7"
-               android:layout_marginTop="5dp"
-               android:background="@drawable/redcar" />
+          			     android:id="@+id/imageView8"
+          			     android:layout_width="40dp"
+          			     android:layout_height="22dp"
+          			     android:layout_alignLeft="@id/imageView2"
+          			     android:layout_below="@id/imageView7"
+          			     android:layout_marginTop="5dp"
+          			     android:background="@drawable/redcar"
+          			     android:tag="8"
+          			     android:textColor="@color/choosen" />
           			 
    			         <TextView
-               android:id="@+id/imageView9"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView8"
-               android:layout_marginTop="2.5dp"
-               android:background="@drawable/redcar" />
-   			         
+   			             android:id="@+id/imageView9"
+   			             android:layout_width="40dp"
+   			             android:layout_height="22dp"
+   			             android:layout_alignLeft="@id/imageView2"
+   			             android:layout_below="@id/imageView8"
+   			             android:layout_marginTop="2.5dp"
+   			             android:background="@drawable/redcar"
+   			             android:tag="9"
+   			             android:textColor="@color/choosen" />
    			         
    			            			         <TextView
-               android:id="@+id/hel"
-               android:layout_width="40dp"
-               android:layout_height="22dp"
-               android:textColor="@color/choosen"
-               android:layout_alignLeft="@id/imageView2"
-               android:layout_below="@id/imageView9"
-               android:layout_marginTop="2.5dp"
-               android:visibility="invisible"
-               android:background="@drawable/redcar" />
+   			            			             android:id="@+id/hel"
+   			            			             android:layout_width="40dp"
+   			            			             android:layout_height="22dp"
+   			            			             android:layout_alignLeft="@id/imageView2"
+   			            			             android:layout_below="@id/imageView9"
+   			            			             android:layout_marginTop="2.5dp"
+   			            			             android:background="@drawable/redcar"
+   			            			             android:tag="10"
+   			            			             android:textColor="@color/choosen"
+   			            			             android:visibility="invisible" />
 
         </RelativeLayout>
         
